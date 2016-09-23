@@ -18,25 +18,26 @@ def parse_options
   }
 
   optparse = OptionParser.new do |opts|
-    opts.banner = 'usage: imgen [-w, --width WIDTH] [-h, --height HEIGHT] [--display]'
+    opts.banner = "Generate images on the command line\n"
+    opts.banner += "usage: imgen [-w, --width WIDTH] [-h, --height HEIGHT] [-d, --directory IMG_DIRECTORY] [-f, --format IMG_FORMAT] [-q, --quantity QUANTITY] [--display]\n\n"
 
-    opts.on('-w', '--width WIDTH_OF_IMAGE', Integer, 'Width of image to create') do |w|
+    opts.on('-w', '--width WIDTH_OF_IMAGE', Integer, 'Width of image in pixels (Default: 100)') do |w|
       options[:width] = w.to_i
     end
 
-    opts.on('-h', '--height HEIGHT_OF_IMAGE', Integer, 'Height of image to create') do |h|
+    opts.on('-h', '--height HEIGHT_OF_IMAGE', Integer, 'Height of image in pixels (Default: 100)') do |h|
       options[:height] = h.to_i
     end
 
-    opts.on('-d', '--directory IMG_DIRECTORY', 'Subdirectory to put generated images') do |d|
+    opts.on('-d', '--directory IMG_DIRECTORY', 'Subdirectory to put generated images (Default: ./img)') do |d|
       options[:directory] = d
     end
 
-    opts.on('-f', '--format IMG_FORMAT', 'Image format (png|jpg)') do |f|
+    opts.on('-f', '--format IMG_FORMAT', [:bmp, :gif, :jpg, :png], 'Image format (bmp|gif|jpg|png) (Default: png)') do |f|
       options[:format] = f
     end
 
-    opts.on('-q', '--quantity QUANTITY', 'Number of images to create') do |q|
+    opts.on('-q', '--quantity QUANTITY', 'Number of images to create (Default: 1)') do |q|
       options[:quantity] = q.to_i
     end
 
