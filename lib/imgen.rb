@@ -9,19 +9,25 @@ module Imgen
       img = Magick::Image.new(options[:width].to_i, options[:height].to_i)
       colors = {r: 0, g: 0, b: 0}
       color_dominant = colors.keys.to_a.sample
+      options[:color_dominant] = color_dominant
 
+      make_image(img, options)
+    end
+
+    # image processing
+    def make_image(img, options)
       (0..img.columns).each do |x|
         (0..img.rows).each do |y|
-          red = (color_dominant == :r) ? rand(0..100) : 0
-          green = (color_dominant == :g) ? rand(0..100) : 0
-          blue = (color_dominant == :b) ? rand(0..100) : 0
+          red = (options[:color_dominant] == :r) ? rand(0..100) : 0
+          green = (options[:color_dominant] == :g) ? rand(0..100) : 0
+          blue = (options[:color_dominant] == :b) ? rand(0..100) : 0
           alpha = rand(0..100)
           img.pixel_color(x,y,"rgba(#{red}%, #{green}%, #{blue}%, #{alpha}%)")
         end
       end
 
-      img_dir = options[:directory] ? options[:directory] : "img"
-      img_ext = "png"
+      img_dir = options[:directory]
+      img_ext = options[:format]
 
       unless File.directory?(img_dir)
         FileUtils.mkdir_p(img_dir)
