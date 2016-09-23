@@ -20,12 +20,12 @@ def parse_options
   optparse = OptionParser.new do |opts|
     opts.banner = 'usage: imgen [-w, --width WIDTH] [-h, --height HEIGHT] [--display]'
 
-    opts.on('-w', '--width WIDTH_OF_IMAGE', 'Width of image to create') do |w|
-      options[:width] = w
+    opts.on('-w', '--width WIDTH_OF_IMAGE', Integer, 'Width of image to create') do |w|
+      options[:width] = w.to_i
     end
 
-    opts.on('-h', '--height HEIGHT_OF_IMAGE', 'Height of image to create') do |h|
-      options[:height] = h
+    opts.on('-h', '--height HEIGHT_OF_IMAGE', Integer, 'Height of image to create') do |h|
+      options[:height] = h.to_i
     end
 
     opts.on('-d', '--directory IMG_DIRECTORY', 'Subdirectory to put generated images') do |d|
