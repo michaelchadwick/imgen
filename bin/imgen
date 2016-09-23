@@ -13,6 +13,7 @@ def parse_options
     :height => 100,
     :directory => "img",
     :format => "png",
+    :quantity => 1,
     :display => false
   }
 
@@ -33,6 +34,10 @@ def parse_options
 
     opts.on('-f', '--format IMG_FORMAT', 'Image format (png|jpg)') do |f|
       options[:format] = f
+    end
+
+    opts.on('-q', '--quantity QUANTITY', 'Number of images to create') do |q|
+      options[:quantity] = q.to_i
     end
 
     opts.on('--display', 'Display image using X11 after creation') do |bg|

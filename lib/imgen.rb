@@ -6,12 +6,14 @@ module Imgen
 
     # main entry point
     def initialize(options)
-      img = Magick::Image.new(options[:width].to_i, options[:height].to_i)
-      colors = {r: 0, g: 0, b: 0}
-      color_dominant = colors.keys.to_a.sample
-      options[:color_dominant] = color_dominant
+      1.upto(options[:quantity]) do
+        img = Magick::Image.new(options[:width].to_i, options[:height].to_i)
+        colors = {r: 0, g: 0, b: 0}
+        color_dominant = colors.keys.to_a.sample
+        options[:color_dominant] = color_dominant
 
-      make_image(img, options)
+        make_image(img, options)
+      end
     end
 
     # image processing
