@@ -11,8 +11,8 @@ def parse_options
   options = {
     :width => 100,
     :height => 100,
-    :directory => "img",
-    :format => "png",
+    :directory => 'img',
+    :format => 'png',
     :quantity => 1,
     :display => false
   }
