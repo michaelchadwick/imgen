@@ -24,13 +24,9 @@ Or install it yourself as:
 
 By default, simply running `imgen` will create a single 100x100 PNG, using one of three randomly-selected dominant colors (R, G, or B).
 
-It will look something like the following:
+The resulting image will look something like one of the following:
 
-![Imgen default red](https://github.com/michaelchadwick/imgen/blob/master/image-example-red.png)
-
-![Imgen default green](https://github.com/michaelchadwick/imgen/blob/master/image-example-green.png)
-
-![Imgen default blue](https://github.com/michaelchadwick/imgen/blob/master/image-example-blue.png)
+![Imgen default red](https://github.com/michaelchadwick/imgen/blob/master/image-example-red.png) ![Imgen default green](https://github.com/michaelchadwick/imgen/blob/master/image-example-green.png) ![Imgen default blue](https://github.com/michaelchadwick/imgen/blob/master/image-example-blue.png)
 
 You can change width, height, image format, and the quantity of images generated with switches.
 
