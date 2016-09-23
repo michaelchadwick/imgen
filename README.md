@@ -1,5 +1,7 @@
 # Imgen
 
+[![Gem Version](https://badge.fury.io/rb/imgen.svg)](https://badge.fury.io/rb/imgen)
+
 Imgen is a quick and simple way to create simple, placeholder-type images. One line can make 1, 5, or 100 PNGs, perfect for testing out any project that needs imagery.
 
 ## Installation
