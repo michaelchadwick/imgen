@@ -21,6 +21,10 @@ def parse_options
       options[:height] = h
     end
 
+    opts.on('-d', '--directory IMG_DIRECTORY', 'Subdirectory to put generated images') do |d|
+      options[:directory] = d
+    end
+
     opts.on('--display', 'Display image using X11 after creation') do |bg|
       options[:display] = true
     end

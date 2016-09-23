@@ -8,7 +8,6 @@ module Imgen
     def initialize(options)
       img = Magick::Image.new(options[:width].to_i, options[:height].to_i)
       colors = {r: 0, g: 0, b: 0}
-
       color_dominant = colors.keys.to_a.sample
 
       (0..img.columns).each do |x|
@@ -21,7 +20,7 @@ module Imgen
         end
       end
 
-      img_dir = "img"
+      img_dir = options[:directory] ? options[:directory] : "img"
       img_ext = "png"
 
       unless File.directory?(img_dir)
