@@ -24,7 +24,7 @@ module Imgen
       (0..img.columns).each do |x|
         (0..img.rows).each do |y|
           case options[:method]
-          when 1
+          when :lines
             if !last_pixel.empty?
               if last_pixel[:color_dominant] == 100
                 new_pixel[options[:color_dominant]] = 0
@@ -39,7 +39,7 @@ module Imgen
               new_pixel[:b] = (options[:color_dominant] == :b) ? rand(0..100) : 0
               new_pixel[:a] = rand(0..100)
             end
-          when 2
+          when :noise
             new_pixel[:r] = (options[:color_dominant] == :r) ? rand(0..100) : 0
             new_pixel[:g] = (options[:color_dominant] == :g) ? rand(0..100) : 0
             new_pixel[:b] = (options[:color_dominant] == :b) ? rand(0..100) : 0

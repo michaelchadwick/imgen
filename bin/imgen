@@ -14,7 +14,7 @@ def parse_options
     :directory => 'img',
     :format => 'png',
     :quantity => 1,
-    :method => 1,
+    :method => :noise,
     :debug => false,
     :display => false
   }
@@ -43,8 +43,8 @@ def parse_options
       options[:quantity] = q.to_i
     end
 
-    opts.on('-m', '--method METHOD', 'Image generation method (Default: 1)') do |m|
-      options[:method] = m.to_i
+    opts.on('-m', '--method METHOD', [:noise, :lines], 'Image generation method (Default: noise)') do |m|
+      options[:method] = m
     end
 
     opts.on('--debug', 'Display pixel debug information') do |debug|
