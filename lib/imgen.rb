@@ -80,8 +80,12 @@ module Imgen
       img.write(filename_path)
 
       if options[:display]
-        puts "displaying #{filename_path} in X11..."
-        img.display
+        begin
+          puts "displaying #{filename_path} in X11..."
+          img.display
+        rescue
+          puts "could not display #{filename_path}"
+        end
       end
     end
 
