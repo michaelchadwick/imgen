@@ -14,12 +14,14 @@ def parse_options
     :directory => 'img',
     :format => 'png',
     :quantity => 1,
+    :method => 1,
+    :debug => false,
     :display => false
   }
 
   optparse = OptionParser.new do |opts|
     opts.banner = "Generate images on the command line\n"
-    opts.banner += "usage: imgen [-w, --width WIDTH] [-h, --height HEIGHT] [-d, --directory IMG_DIRECTORY] [-f, --format IMG_FORMAT] [-q, --quantity QUANTITY] [--display]\n\n"
+    opts.banner += "usage: imgen [-w, --width WIDTH] [-h, --height HEIGHT] [-d, --directory IMG_DIRECTORY] [-f, --format IMG_FORMAT] [-q, --quantity QUANTITY] [-m, --method GEN_METHOD] [--debug] [--display]\n\n"
 
     opts.on('-w', '--width WIDTH_OF_IMAGE', Integer, 'Width of image in pixels (Default: 100)') do |w|
       options[:width] = w.to_i
@@ -39,6 +41,14 @@ def parse_options
 
     opts.on('-q', '--quantity QUANTITY', 'Number of images to create (Default: 1)') do |q|
       options[:quantity] = q.to_i
+    end
+
+    opts.on('-m', '--method METHOD', 'Image generation method (Default: 1)') do |m|
+      options[:method] = m.to_i
+    end
+
+    opts.on('--debug', 'Display pixel debug information') do |debug|
+      options[:debug] = true
     end
 
     opts.on('--display', 'Display image using X11 after creation') do |bg|
