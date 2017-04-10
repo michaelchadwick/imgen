@@ -43,7 +43,7 @@ def parse_options
       options[:quantity] = q.to_i
     end
 
-    opts.on('-m', '--method METHOD', [:noise, :lines], 'Image generation method (Default: noise)') do |m|
+    opts.on('-m', '--method GEN_METHOD', [:noise, :lines], 'Image generation method (noise|lines) (Default: noise)') do |m|
       options[:method] = m
     end
 
