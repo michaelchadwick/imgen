@@ -60,7 +60,7 @@ def parse_options
       exit
     end
 
-    opts.on('--help', 'Display this screen and exit') do
+    opts.on('-?', '--help', 'Display this screen and exit') do
       puts opts
       exit
     end
