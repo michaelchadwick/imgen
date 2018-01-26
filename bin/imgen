@@ -15,8 +15,10 @@ def parse_options
     :format => 'png',
     :quantity => 1,
     :method => :noise,
+    :filename_path => '',
     :debug => false,
-    :display => false
+    :display_x11 => false,
+    :display_imgcat => false
   }
 
   optparse = OptionParser.new do |opts|
@@ -47,12 +49,16 @@ def parse_options
       options[:method] = m
     end
 
-    opts.on('--debug', 'Display pixel debug information') do |debug|
+    opts.on('--debug', 'Display pixel debug information') do
       options[:debug] = true
     end
 
-    opts.on('--display', 'Display image using X11 after creation') do |bg|
-      options[:display] = true
+    opts.on('--display-x11', 'Display image using X11 after creation') do
+      options[:display_x11] = true
+    end
+
+    opts.on('--display-imgcat', 'Display image using imgcat after creation') do
+      options[:display_imgcat] = true
     end
 
     opts.on('-v', '--version', 'Display version number and exit') do

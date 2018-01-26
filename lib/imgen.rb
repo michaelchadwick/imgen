@@ -3,14 +3,15 @@ require 'fileutils'
 
 module Imgen
   class Image
+    MAX = Magick::QuantumRange
 
     # main entry point
     def initialize(options)
       1.upto(options[:quantity]) do
         img = Magick::Image.new(options[:width], options[:height])
+        #img.colorspace = Magick::RGBColorspace
         colors = {r: 0, g: 0, b: 0}
-        color_dominant = colors.keys.to_a.sample
-        options[:color_dominant] = color_dominant
+        options[:color_dominant] = colors.keys.to_a.sample
 
         make_image(img, options)
       end
@@ -21,6 +22,7 @@ module Imgen
       last_pixel = {}
       new_pixel = {}
 
+      # iterate over each pixel
       (0..img.columns).each do |x|
         (0..img.rows).each do |y|
           case options[:method]
@@ -34,31 +36,61 @@ module Imgen
                 new_pixel[options[:color_dominant]] = rand(-10..10) + last_pixel[options[:color_dominant]]
               end
             else
-              new_pixel[:r] = (options[:color_dominant] == :r) ? rand(0..100) : 0
-              new_pixel[:g] = (options[:color_dominant] == :g) ? rand(0..100) : 0
-              new_pixel[:b] = (options[:color_dominant] == :b) ? rand(0..100) : 0
-              new_pixel[:a] = rand(0..100)
+              new_pixel = make_new_pixel(options[:color_dominant])
             end
           when :noise
-            new_pixel[:r] = (options[:color_dominant] == :r) ? rand(0..100) : 0
-            new_pixel[:g] = (options[:color_dominant] == :g) ? rand(0..100) : 0
-            new_pixel[:b] = (options[:color_dominant] == :b) ? rand(0..100) : 0
-            new_pixel[:a] = rand(0..100)
+            new_pixel = make_new_pixel(options[:color_dominant])
           end
 
-          img.pixel_color(x,y,"rgba(#{new_pixel[:r]}%, #{new_pixel[:g]}%, #{new_pixel[:b]}%, #{new_pixel[:a]}%)")
-          last_pixel = {r: new_pixel[:r], g: new_pixel[:g], b: new_pixel[:b], a: new_pixel[:a]}
+          pixel = Magick::Pixel.new(
+            new_pixel[:r],
+            new_pixel[:g],
+            new_pixel[:b],
+            new_pixel[:a]
+          )
+
+          # change pixel color
+          img.pixel_color(x, y, pixel)
+
+          # save values of last color change
+          last_pixel = new_pixel
 
           if options[:debug]
-            print "R#{new_pixel[:r].to_s.ljust(3)}"
-            print "G#{new_pixel[:g].to_s.ljust(3)}"
-            print "B#{new_pixel[:b].to_s.ljust(3)}"
-            print "A#{new_pixel[:a].to_s.ljust(3)}| "
+            print "R#{new_pixel[:r].to_s.ljust(3)} "
+            print "G#{new_pixel[:g].to_s.ljust(3)} "
+            print "B#{new_pixel[:b].to_s.ljust(3)} "
+            print "A#{new_pixel[:a].to_s.ljust(3)}|"
           end
         end
+
         print "\n" if options[:debug]
       end
 
+      write_image_to_file(img, options)
+
+      display_image(img, options)
+    end
+
+    # overwrite pixel with new color
+    def make_new_pixel(color_dominant)
+      clr_strong = rand(0..MAX)
+
+      case color_dominant
+      when :r
+        new_pixel = {:r => clr_strong, :g => clr_strong / 2, :b => clr_strong / 2}
+      when :g
+        new_pixel = {:r => clr_strong / 2, :g => clr_strong, :b => clr_strong / 2}
+      when :b
+        new_pixel = {:r => clr_strong / 2, :g => clr_strong / 2, :b => clr_strong}
+      end
+
+      new_pixel[:a] = rand(0..MAX)
+
+      return new_pixel
+    end
+
+    # write image to disk
+    def write_image_to_file(img, options)
       img_dir = options[:directory]
       img_ext = options[:format]
 
@@ -68,26 +100,38 @@ module Imgen
 
       counter = 0
       img_uniq = "_0"
-      filename_path = "#{img_dir}/#{options[:width]}x#{options[:height]}#{img_uniq}.#{img_ext}"
+      options[:filename_path] = "#{img_dir}/#{options[:width]}x#{options[:height]}#{img_uniq}.#{img_ext}"
 
-      until !File.exists?(filename_path)
+      until !File.exists?(options[:filename_path])
         counter += 1
         img_uniq = "_" + counter.to_s
-        filename_path = "#{img_dir}/#{options[:width]}x#{options[:height]}#{img_uniq}.#{img_ext}"
+        options[:filename_path] = "#{img_dir}/#{options[:width]}x#{options[:height]}#{img_uniq}.#{img_ext}"
       end
 
-      puts "writing #{filename_path} to disk"
-      img.write(filename_path)
+      puts "writing #{options[:filename_path]} to disk"
 
-      if options[:display]
-        begin
-          puts "displaying #{filename_path} in X11..."
-          img.display
-        rescue
-          puts "could not display #{filename_path}"
-        end
+      begin
+        img.write(options[:filename_path])
+      rescue
+        puts 'error writing image to disk'
       end
     end
 
+    # optionally display image after creation
+    def display_image(img, options)
+      if options[:display_x11]
+        begin
+          img.display
+        rescue
+          puts "could not display #{options[:filename_path]}"
+        end
+      elsif options[:display_imgcat]
+        begin
+          system("imgcat #{options[:filename_path]}")
+        rescue
+          puts "could not display #{options[:filename_path]}"
+        end
+      end
+    end
   end
 end
