@@ -26,13 +26,13 @@ By default, simply running `imgen` will create a single 100x100 PNG, using a ran
 
 The resulting image will look something like one of the following:
 
-![Imgen solid example 1](https://github.com/michaelchadwick/imgen/blob/master/image-solid-example-1.png) ![Imgen solid example 2](https://github.com/michaelchadwick/imgen/blob/master/image-solid-example-2.png) ![Imgen solid example 3](https://github.com/michaelchadwick/imgen/blob/master/image-solid-example-3.png)
+![Imgen solid example 1](https://github.com/michaelchadwick/imgen/blob/master/imgen-solid-example-1.png) ![Imgen solid example 2](https://github.com/michaelchadwick/imgen/blob/master/imgen-solid-example-2.png) ![Imgen solid example 3](https://github.com/michaelchadwick/imgen/blob/master/imgen-solid-example-3.png)
 
 You can change width, height, image format, and the quantity of images generated with switches.
 
 `imgen -m texture -w 200 -h 300 -f jpg -q 3` - Create 3 200x300 JPGs of randomly-chosen textured color.
 
-![Imgen texture example 1](https://github.com/michaelchadwick/imgen/blob/master/image-texture-example-1.png) ![Imgen texture example 2](https://github.com/michaelchadwick/imgen/blob/master/image-texture-example-2.png) ![Imgen texture example 3](https://github.com/michaelchadwick/imgen/blob/master/image-texture-example-3.png)
+![Imgen texture example 1](https://github.com/michaelchadwick/imgen/blob/master/imgen-texture-example-1.png) ![Imgen texture example 2](https://github.com/michaelchadwick/imgen/blob/master/imgen-texture-example-2.png) ![Imgen texture example 3](https://github.com/michaelchadwick/imgen/blob/master/imgen-texture-example-3.png)
 
 ## Contributing
 
