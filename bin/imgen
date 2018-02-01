@@ -14,8 +14,9 @@ def parse_options
     :directory => 'img',
     :format => 'png',
     :quantity => 1,
-    :method => :noise,
+    :method => :solid,
     :filename_path => '',
+    :verbose => false,
     :debug => false,
     :display_x11 => false,
     :display_imgcat => false
@@ -45,8 +46,12 @@ def parse_options
       options[:quantity] = q.to_i
     end
 
-    opts.on('-m', '--method GEN_METHOD', [:noise, :lines], 'Image generation method (noise|lines) (Default: noise)') do |m|
+    opts.on('-m', '--method GEN_METHOD', [:solid, :texture], 'Image generation method (solid|texture) (Default: solid)') do |m|
       options[:method] = m
+    end
+
+    opts.on('--verbose', 'Display image write output') do
+      options[:debug] = true
     end
 
     opts.on('--debug', 'Display pixel debug information') do

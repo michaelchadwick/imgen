@@ -1,10 +1,9 @@
 require 'rmagick'
 require 'fileutils'
+require_relative 'imgen/color_names'
 
 module Imgen
   class Image
-    MAX = Magick::QuantumRange
-
     # main entry point
     def initialize(options)
       1.upto(options[:quantity]) do
@@ -19,51 +18,33 @@ module Imgen
 
     # image processing
     def make_image(img, options)
-      last_pixel = {}
-      new_pixel = {}
+      index_range = (-5..5)
+      color_name_index = rand(0..COLOR_NAMES.length - 1)
 
       # iterate over each pixel
       (0..img.columns).each do |x|
         (0..img.rows).each do |y|
           case options[:method]
-          when :lines
-            if !last_pixel.empty?
-              if last_pixel[:color_dominant] == 100
-                new_pixel[options[:color_dominant]] = 0
-              elsif last_pixel[:color_dominant] == 0
-                new_pixel[options[:color_dominant]] = rand(1..10) + last_pixel[options[:color_dominant]]
-              else
-                new_pixel[options[:color_dominant]] = rand(-10..10) + last_pixel[options[:color_dominant]]
-              end
+          when :solid
+            pixel = make_new_pixel(COLOR_NAMES[color_name_index])
+          when :texture
+            new_color_name_index = (color_name_index + rand(index_range))
+
+            # fix boundary of index
+            if new_color_name_index < 0
+              color_name_index = 0
+            elsif new_color_name_index >= COLOR_NAMES.length
+              color_name_index = COLOR_NAMES.length - 1
             else
-              new_pixel = make_new_pixel(options[:color_dominant])
+              color_name_index = new_color_name_index
             end
-          when :noise
-            new_pixel = make_new_pixel(options[:color_dominant])
+
+            pixel = make_new_pixel(COLOR_NAMES[color_name_index])
           end
 
-          pixel = Magick::Pixel.new(
-            new_pixel[:r],
-            new_pixel[:g],
-            new_pixel[:b],
-            new_pixel[:a]
-          )
-
-          # change pixel color
+          # save pixel color
           img.pixel_color(x, y, pixel)
-
-          # save values of last color change
-          last_pixel = new_pixel
-
-          if options[:debug]
-            print "R#{new_pixel[:r].to_s.ljust(3)} "
-            print "G#{new_pixel[:g].to_s.ljust(3)} "
-            print "B#{new_pixel[:b].to_s.ljust(3)} "
-            print "A#{new_pixel[:a].to_s.ljust(3)}|"
-          end
         end
-
-        print "\n" if options[:debug]
       end
 
       write_image_to_file(img, options)
@@ -71,22 +52,9 @@ module Imgen
       display_image(img, options)
     end
 
-    # overwrite pixel with new color
-    def make_new_pixel(color_dominant)
-      clr_strong = rand(0..MAX)
-
-      case color_dominant
-      when :r
-        new_pixel = {:r => clr_strong, :g => clr_strong / 2, :b => clr_strong / 2}
-      when :g
-        new_pixel = {:r => clr_strong / 2, :g => clr_strong, :b => clr_strong / 2}
-      when :b
-        new_pixel = {:r => clr_strong / 2, :g => clr_strong / 2, :b => clr_strong}
-      end
-
-      new_pixel[:a] = rand(0..MAX)
-
-      return new_pixel
+    # create new Pixel from color name
+    def make_new_pixel(new_name)
+      return Magick::Pixel.from_color(new_name)
     end
 
     # write image to disk
