@@ -23,8 +23,8 @@ def parse_options
   }
 
   optparse = OptionParser.new do |opts|
-    opts.banner = "Generate images on the command line\n"
-    opts.banner += "usage: imgen [-w, --width WIDTH] [-h, --height HEIGHT] [-d, --directory IMG_DIRECTORY] [-f, --format IMG_FORMAT] [-q, --quantity QUANTITY] [-m, --method GEN_METHOD] [--debug] [--display]\n\n"
+    opts.banner = "Generate random images on the command line\n"
+    opts.banner += "usage: imgen [-w, --width WIDTH] [-h, --height HEIGHT] [-d, --directory IMG_DIRECTORY] [-f, --format IMG_FORMAT] [-q, --quantity QUANTITY] [-m, --method GEN_METHOD] [--verbose] [--debug] [--display-x11] [--display-imgcat]\n\n"
 
     opts.on('-w', '--width WIDTH_OF_IMAGE', Integer, 'Width of image in pixels (Default: 100)') do |w|
       options[:width] = w.to_i
@@ -51,7 +51,7 @@ def parse_options
     end
 
     opts.on('--verbose', 'Display image write output') do
-      options[:debug] = true
+      options[:verbose] = true
     end
 
     opts.on('--debug', 'Display pixel debug information') do

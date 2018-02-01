@@ -22,15 +22,17 @@ Or install it yourself as:
 
 ## Usage
 
-By default, simply running `imgen` will create a single 100x100 PNG, using one of three randomly-selected dominant colors (R, G, or B).
+By default, simply running `imgen` will create a single 100x100 PNG, using a randomly-selected color.
 
 The resulting image will look something like one of the following:
 
-![Imgen default red](https://github.com/michaelchadwick/imgen/blob/master/image-example-red.png) ![Imgen default green](https://github.com/michaelchadwick/imgen/blob/master/image-example-green.png) ![Imgen default blue](https://github.com/michaelchadwick/imgen/blob/master/image-example-blue.png)
+![Imgen solid example 1](https://github.com/michaelchadwick/imgen/blob/master/image-solid-example-1.png) ![Imgen solid example 2](https://github.com/michaelchadwick/imgen/blob/master/image-solid-example-2.png) ![Imgen solid example 3](https://github.com/michaelchadwick/imgen/blob/master/image-solid-example-3.png)
 
 You can change width, height, image format, and the quantity of images generated with switches.
 
-`imgen -w 200 -h 300 -f jpg -q 10` - Create 10 200x300 JPGs of random dominant-colored noise.
+`imgen -m texture -w 200 -h 300 -f jpg -q 3` - Create 3 200x300 JPGs of randomly-chosen textured color.
+
+![Imgen texture example 1](https://github.com/michaelchadwick/imgen/blob/master/image-texture-example-1.png) ![Imgen texture example 2](https://github.com/michaelchadwick/imgen/blob/master/image-texture-example-2.png) ![Imgen texture example 3](https://github.com/michaelchadwick/imgen/blob/master/image-texture-example-3.png)
 
 ## Contributing
 

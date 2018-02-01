@@ -76,7 +76,7 @@ module Imgen
         options[:filename_path] = "#{img_dir}/#{options[:width]}x#{options[:height]}#{img_uniq}.#{img_ext}"
       end
 
-      puts "writing #{options[:filename_path]} to disk"
+      puts "writing #{options[:filename_path]} to disk" if options[:verbose]
 
       begin
         img.write(options[:filename_path])
